@@ -35,8 +35,8 @@ return { "lukas-reineke/indent-blankline.nvim",
 
         require("ibl").setup {
             indent = {
-                char = "|",
-                highlight = highlight 
+                -- char = "|",
+                -- highlight = highlight 
             }
         }
     end
