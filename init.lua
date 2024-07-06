@@ -15,7 +15,6 @@ require("settings.vim-options")
 require("settings.autocommands")
 require("lazy").setup({
 	spec = {
-		{ import = "plugins" },
 		{ import = "plugins.core" },
 		{ import = "plugins.interface" },
 		{ import = "plugins.misc" },
