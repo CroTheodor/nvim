@@ -14,7 +14,8 @@ return {
 					enable_close_on_slash = false,
 				},
 				aliases = {
-					["angular.html"] = "html",
+                    ["angular.html"] = "html",
+                    ["angularls"] = "html"
 				},
 			})
 		end,

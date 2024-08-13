@@ -16,6 +16,7 @@ return {
 				"bash",
 				"markdown",
 				"markdown_inline",
+                "angular"
 			},
 			indent = { enable = true },
 			highlight = {
