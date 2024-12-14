@@ -28,13 +28,19 @@ vim.opt.updatetime = 250
 vim.opt.cursorline = true
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.opt.clipboard = "unnamed"
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 
+-- keybinding for copying to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system" })
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+vim.keymap.set("n", "<leader>p", [["+p]])
+vim.keymap.set("n", "<leader>P", [["+P]])
+
 vim.diagnostic.config({
-    update_in_insert = true,
+	update_in_insert = true,
 })
 
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#51B3EC", bold = true })

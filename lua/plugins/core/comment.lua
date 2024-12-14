@@ -13,7 +13,7 @@ return {
                 block = 'gbc',
             },
             opleader = {
-                line = 'gc',
+                line = '<leader>/',
                 block = 'gb',
             },
             extra = {
@@ -31,4 +31,4 @@ return {
             post_hook = nil,
         })
     end
-} 
+}
