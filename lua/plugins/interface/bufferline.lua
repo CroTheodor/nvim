@@ -33,7 +33,7 @@ return {
         ":lua require'bufferline'.go_to_buffer(" .. i .. ", true)<CR>",
         { desc = "[B]uffer [" .. i .. "]"}
       )
-      vim.keymap.set("n", "<leader>bd", delete_buffer, { desc = "[B]uffer [D]elete" })
+      vim.keymap.set("n", "<leader>bdc", delete_buffer, { desc = "[B]uffer [D]elete [C]urrent" })
     end
 
     bufferline.setup({
