@@ -15,6 +15,7 @@ return {
     bufdelete = { enable = true }
   },
   keys = {
+    { "<leader>bdc", function() Snacks.bufdelete() end, desc = "[B]uffer [D]elete [C]urrent"},
     { "<leader>bda", function() Snacks.bufdelete.all() end, desc = "[B]uffer [D]elete [A]ll"},
     { "<leader>bdo", function() Snacks.bufdelete.other() end, desc = "[B]uffer [D]elete [O]ther"},
   },

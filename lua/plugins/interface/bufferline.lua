@@ -16,12 +16,6 @@ return {
       end
     end
 
-    local delete_buffer = function()
-      local bufnr = vim.api.nvim_get_current_buf()
-      vim.api.nvim_buf_delete(bufnr, {})
-    end
-
-    vim.keymap.set("n", "<leader>bmn", ":BufferLineMoveNext<CR>", { desc = "[B]uffer [M]ove [N]ext" })
     vim.keymap.set("n", "<leader>bmb", ":BufferLineMovePrev<CR>", { desc = "[B]uffer [M]ove [B]back" })
     vim.keymap.set("n", "<leader>bn", ":BufferLineCycleNext<CR>", { desc = "[B]uffer [N]ext" })
     vim.keymap.set("n", "<leader>bb", ":BufferLineCyclePrev<CR>", { desc = "[B]uffer [B]back" })
@@ -33,7 +27,6 @@ return {
         ":lua require'bufferline'.go_to_buffer(" .. i .. ", true)<CR>",
         { desc = "[B]uffer [" .. i .. "]"}
       )
-      vim.keymap.set("n", "<leader>bdc", delete_buffer, { desc = "[B]uffer [D]elete [C]urrent" })
     end
 
     bufferline.setup({
