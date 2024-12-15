@@ -1,92 +1,61 @@
 return {
-	"hrsh7th/nvim-cmp",
-	event = "InsertEnter",
-	dependencies = {
-		"hrsh7th/cmp-buffer", -- source for text in buffer
-		"hrsh7th/cmp-path", -- source for file system paths
-		"L3MON4D3/LuaSnip", -- snippet engine
-		"saadparwaiz1/cmp_luasnip", -- for autocompletion
-		"rafamadriz/friendly-snippets", -- useful snippets
-		"onsails/lspkind.nvim", -- vs-code like pictograms
-	},
-	enabled = true,
-	config = function()
-		local cmp = require("cmp")
+  'saghen/blink.cmp',
+  lazy = false, -- lazy loading handled internally
+  -- optional: provides snippets for the snippet source
+  dependencies = 'rafamadriz/friendly-snippets',
 
-		local luasnip = require("luasnip")
+  -- use a release tag to download pre-built binaries
+  version = 'v0.*',
+  -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+  -- build = 'cargo build --release',
+  -- If you use nix, you can build from source using latest nightly rust with:
+  -- build = 'nix run .#build-plugin',
 
-		local lspkind = require("lspkind")
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    -- 'default' for mappings similar to built-in completion
+    -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+    -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+    -- see the "default configuration" section below for full documentation on how to define
+    -- your own keymap.
+    keymap = {
+      preset = 'enter',
+    },
 
-		local has_words_before = function()
-			unpack = unpack or table.unpack
-			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-		end
+    completion = {
+      list = {
+        selection = "auto_insert"
+      },
 
-		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load()
-		cmp.setup({
-			completion = {
-				completeopt = "menu,menuone,preview,noselect",
-			},
-			snippet = { -- configure how nvim-cmp interacts with snippet engine
-				expand = function(args)
-					luasnip.lsp_expand(args.body)
-				end,
-			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				-- ["<C-[>"] = cmp.mapping.scroll_docs(-4),
-				-- ["<C-]>"] = cmp.mapping.scroll_docs(4),
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-e>"] = cmp.mapping.abort(), -- close completion window
-				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<C-n>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item()
-						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-						-- that way you will only jump inside the snippet region
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					elseif has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
+      menu = {
+        min_width = 45,
+      }
+    },
 
-				["<C-p>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_prev_item()
-					elseif luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-			}),
-			-- sources for autocompletion
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- snippets
-				{ name = "buffer" }, -- text within current buffer
-				{ name = "path" }, -- file system paths
-			}),
-			-- configure lspkind for vs-code like pictograms in completion menu
-			formatting = {
-				format = function(entry, item)
-					local color_item = require("nvim-highlight-colors").format(entry, { kind = item.kind })
-					item = require("lspkind").cmp_format({
-						-- any lspkind format settings here
-					})(entry, item)
-					if color_item.abbr_hl_group then
-						item.kind_hl_group = color_item.abbr_hl_group
-						item.kind = color_item.abbr
-					end
-					return item
-				end,
-			},
-		})
-	end,
+    appearance = {
+      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+      -- Useful for when your theme doesn't support blink.cmp
+      -- will be removed in a future release
+      use_nvim_cmp_as_default = true,
+      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'mono'
+    },
+
+    -- default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, via `opts_extend`
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      -- optionally disable cmdline completions
+      -- cmdline = {},
+    },
+
+    -- experimental signature help support
+    -- signature = { enabled = true }
+  },
+  -- allows extending the providers array elsewhere in your config
+  -- without having to redefine it
+  opts_extend = { "sources.default" }
+
 }
